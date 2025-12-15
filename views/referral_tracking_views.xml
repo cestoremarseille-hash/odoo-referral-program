@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire Suivi Parrainage -->
+    <record id="view_referral_tracking_form" model="ir.ui.view">
+        <field name="name">referral.tracking.form</field>
+        <field name="model">referral.tracking</field>
+        <field name="arch" type="xml">
+            <form string="Suivi Parrainage">
+                <header>
+                    <button name="action_validate" string="Valider" type="object" 
+                            states="pending" class="oe_highlight"/>
+                    <button name="action_reward" string="Attribuer Récompenses" type="object"
+                            states="validated" class="oe_highlight"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            states="pending,validated"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="pending,validated,rewarded"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Informations Parrainage">
+                            <field name="sponsor_id"/>
+                            <field name="referred_id"/>
+                            <field name="referral_code_used"/>
+                        </group>
+                        <group string="Commande">
+                            <field name="pos_order_id"/>
+                            <field name="order_date"/>
+                            <field name="order_amount" widget="monetary"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Récompenses">
+                            <field name="reward_percentage"/>
+                            <field name="reward_amount" widget="monetary"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Notes internes..."/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue liste Suivi Parrainage -->
+    <record id="view_referral_tracking_tree" model="ir.ui.view">
+        <field name="name">referral.tracking.tree</field>
+        <field name="model">referral.tracking</field>
+        <field name="arch" type="xml">
+            <tree string="Suivi Parrainages" decoration-success="state=='rewarded'" 
+                  decoration-muted="state=='cancelled'">
+                <field name="name"/>
+                <field name="sponsor_id"/>
+                <field name="referred_id"/>
+                <field name="referral_code_used"/>
+                <field name="order_date"/>
+                <field name="order_amount" widget="monetary" sum="Total"/>
+                <field name="reward_amount" widget="monetary" sum="Total Récompenses"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue recherche Suivi Parrainage -->
+    <record id="view_referral_tracking_search" model="ir.ui.view">
+        <field name="name">referral.tracking.search</field>
+        <field name="model">referral.tracking</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Parrainages">
+                <field name="sponsor_id"/>
+                <field name="referred_id"/>
+                <field name="referral_code_used"/>
+                <filter string="En attente" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Validés" name="validated" domain="[('state', '=', 'validated')]"/>
+                <filter string="Récompensés" name="rewarded" domain="[('state', '=', 'rewarded')]"/>
+                <group expand="0" string="Grouper par">
+                    <filter string="Parrain" name="group_sponsor" context="{'group_by': 'sponsor_id'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'order_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Suivi Parrainages -->
+    <record id="action_referral_tracking" model="ir.actions.act_window">
+        <field name="name">Suivi Parrainages</field>
+        <field name="res_model">referral.tracking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_validated': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau suivi de parrainage
+            </p>
+            <p>
+                Suivez tous les parrainages effectués par vos clients fidèles.
+            </p>
+        </field>
+    </record>
+</odoo>

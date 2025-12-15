@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal Parrainage -->
+    <menuitem id="menu_referral_program_root"
+              name="Parrainage"
+              sequence="90"
+
+    <menuitem id="menu_referral_tracking"
+              name="Suivi Parrainages"
+              parent="menu_referral_program_root"
+              action="action_referral_tracking"
+              sequence="10"/>
+
+    <menuitem id="menu_referral_contacts"
+              name="Clients Parrains"
+              parent="menu_referral_program_root"
+              action="contacts.action_contacts"
+              sequence="20"/>
+</odoo>

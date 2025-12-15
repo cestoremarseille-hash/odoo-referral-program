@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Template Email Programme Parrainage -->
+        <record id="mail_template_referral_program" model="mail.template">
+            <field name="name">Programme Parrainage - Email avec QR Code</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="subject">🎁 Parrainez vos amis et gagnez 10% - ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="body_html" type="html">
+<![CDATA[
+<div style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        <!-- Header -->
+        <tr>
+            <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 28px;">🎁 Programme de Parrainage</h1>
+                <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Parrainez vos amis et gagnez 10% !</p>
+            </td>
+        </tr>
+        
+        <!-- Salutation -->
+        <tr>
+            <td style="padding: 30px;">
+                <p style="font-size: 16px; color: #333333; margin: 0 0 20px 0;">
+                    Bonjour <strong>${object.name}</strong>,
+                </p>
+                <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+                    Merci pour votre fidélité ! Vous êtes un client précieux de <strong>C.E-STORE</strong>.
+                </p>
+                <p style="font-size: 16px; color: #555555; line-height: 1.6;">
+                    En tant que client fidèle, nous vous offrons la possibilité de <strong>parrainer vos amis</strong> 
+                    et de profiter d'avantages exclusifs !
+                </p>
+            </td>
+        </tr>
+        
+        <!-- Votre Code -->
+        <tr>
+            <td style="padding: 0 30px 30px 30px;">
+                <div style="background-color: #f8f9fa; border-left: 4px solid #667eea; padding: 20px; margin: 20px 0;">
+                    <h2 style="color: #667eea; margin: 0 0 15px 0; font-size: 20px;">💝 Votre Code Personnel</h2>
+                    <p style="font-size: 32px; font-weight: bold; color: #333; margin: 10px 0; letter-spacing: 2px; text-align: center;">
+                        ${object.referral_code or 'CODE-PARRAIN'}
+                    </p>
+                    <p style="font-size: 14px; color: #666; margin: 10px 0 0 0; text-align: center;">
+                        Partagez ce code avec vos amis !
+                    </p>
+                </div>
+            </td>
+        </tr>
+        
+        <!-- QR Code -->
+        % if object.referral_qr_code:
+        <tr>
+            <td style="padding: 0 30px 30px 30px; text-align: center;">
+                <h3 style="color: #333; font-size: 18px; margin: 0 0 20px 0;">📱 Ou scannez ce QR Code</h3>
+                <img src="data:image/png;base64,${object.referral_qr_code.decode()}" 
+                     alt="QR Code Parrainage" 
+                     style="max-width: 200px; border: 2px solid #667eea; border-radius: 10px;"/>
+            </td>
+        </tr>
+        % endif
+        
+        <!-- Comment ça marche -->
+        <tr>
+            <td style="padding: 30px; background-color: #f8f9fa;">
+                <h2 style="color: #333; font-size: 22px; margin: 0 0 20px 0; text-align: center;">
+                    Comment ça marche ?
+                </h2>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="60" valign="top">
+                            <div style="width: 40px; height: 40px; background-color: #667eea; color: white; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; font-size: 18px;">1</div>
+                        </td>
+                        <td style="padding-left: 15px;">
+                            <p style="margin: 0; color: #333; font-size: 15px; line-height: 1.6;">
+                                <strong>Partagez votre code</strong> ${object.referral_code} avec vos amis et famille
+                            </p>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" style="height: 15px;"></td></tr>
+                    <tr>
+                        <td width="60" valign="top">
+                            <div style="width: 40px; height: 40px; background-color: #667eea; color: white; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; font-size: 18px;">2</div>
+                        </td>
+                        <td style="padding-left: 15px;">
+                            <p style="margin: 0; color: #333; font-size: 15px; line-height: 1.6;">
+                                Ils communiquent le code <strong>lors de leur achat en boutique</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr><td colspan="2" style="height: 15px;"></td></tr>
+                    <tr>
+                        <td width="60" valign="top">
+                            <div style="width: 40px; height: 40px; background-color: #667eea; color: white; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; font-size: 18px;">3</div>
+                        </td>
+                        <td style="padding-left: 15px;">
+                            <p style="margin: 0; color: #333; font-size: 15px; line-height: 1.6;">
+                                <strong>Vous recevez tous les deux 10%</strong> de réduction sur votre prochain achat !
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- Adresse Boutique -->
+        <tr>
+            <td style="padding: 30px; text-align: center;">
+                <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+                    📍 <strong>C.E-STORE</strong>
+                </p>
+                <p style="margin: 0; color: #666; font-size: 14px;">
+                    7e : 17 Place Joseph Étienne, 13007 Marseille<br/>
+                    5e : 165 Boulevard Chave, 13005 Marseille
+                </p>
+            </td>
+        </tr>
+        
+        <!-- Footer -->
+        <tr>
+            <td style="background-color: #333; padding: 20px; text-align: center;">
+                <p style="margin: 0; color: #ffffff; font-size: 12px;">
+                    Merci de faire partie de notre communauté !<br/>
+                    © 2025 C.E-STORE - Tous droits réservés
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+]]>
+            </field>
+        </record>
+    </data>
+</odoo>

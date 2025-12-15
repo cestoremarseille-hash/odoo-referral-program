@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue formulaire Contact avec onglet Parrainage -->
+    <record id="view_partner_form_referral" model="ir.ui.view">
+        <field name="name">res.partner.form.referral</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Ajouter le smartbutton pour les parrainages -->
+            <div name="button_box" position="inside">
+                <button name="action_view_referrals" type="object"
+                        class="oe_stat_button" icon="fa-users">
+                    <field name="referral_count" widget="statinfo" string="Filleuls"/>
+                </button>
+            </div>
+            
+            <!-- Ajouter un nouvel onglet Parrainage -->
+            <notebook position="inside">
+                <page string="Parrainage" name="referral" attrs="{'invisible': [('is_company', '=', True)]}">
+                    <group>
+                        <group string="Mon Code de Parrainage">
+                            <field name="is_referral_eligible" invisible="1"/>
+                            <field name="referral_code" readonly="1"/>
+                            <field name="referral_qr_code" widget="image" 
+                                   attrs="{'invisible': [('referral_code', '=', False)]}"/>
+                            <button name="send_referral_email" type="object" 
+                                    string="Envoyer l'email de parrainage"
+                                    class="oe_highlight"
+                                    attrs="{'invisible': ['|', ('referral_code', '=', False), ('is_referral_eligible', '=', False)]}"/>
+                        </group>
+                        <group string="Informations">
+                            <field name="referred_by_id"/>
+                            <field name="referral_count"/>
+                            <field name="referral_reward_total" widget="monetary"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Mes Parrainages">
+                        <field name="referral_tracking_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="referred_id"/>
+                                <field name="order_date"/>
+                                <field name="order_amount" widget="monetary"/>
+                                <field name="reward_amount" widget="monetary"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Vue liste Contact avec colonnes parrainage -->
+    <record id="view_partner_tree_referral" model="ir.ui.view">
+        <field name="name">res.partner.tree.referral</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="referral_code" optional="hide"/>
+                <field name="referral_count" optional="show"/>
+                <field name="referral_reward_total" optional="show" widget="monetary"/>
+            </field>
+        </field>
+    </record>
+</odoo>
