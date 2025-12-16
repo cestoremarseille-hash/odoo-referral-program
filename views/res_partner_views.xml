@@ -40,11 +40,10 @@
                             <tree>
                                 <field name="name"/>
                                 <field name="referred_id"/>
-                                <field name="order_date"/>
+    
                                 <field name="order_amount" widget="monetary"/>
                                 <field name="reward_amount" widget="monetary"/>
                                 <field name="state"/>
-                            </tree>
                         </field>
                     </group>
                 </page>
