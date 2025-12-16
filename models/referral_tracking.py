@@ -14,8 +14,8 @@ class ReferralTracking(models.Model):
     
     pos_order_id = fields.Many2one('pos.order', string='Commande POS du filleul', ondelete='set null')
     order_date = fields.Datetime(string='Date de la commande', related='pos_order_id.date_order', store=True)
-    order_amount = fields.Float(string='Montant de la commande', related='pos_order_id.amount_total', store=True)
-    
+    order_amount = fields.Monetary(string='Montant de la commande', related='pos_order_id.amount_total', currency_field='currency_id', store=True)
+        currency_id = fields.Many2one('res.currency', string='Devise', related='pos_order_id.currency_id', store=True)
     state = fields.Selection([
         ('pending', 'En attente'),
         ('validated', 'Validé'),
