@@ -1,7 +1,6 @@
 {
     'name': 'Programme de Parrainage C.E-STORE',
-    'version': '17.0.1.0.0',
-    'category': 'Marketing',
+    'version': '1.0',    'category': 'Marketing',
     'summary': 'Programme de parrainage avec codes uniques, QR codes et récompenses automatiques',
     'description': """
 Programme de Parrainage Complet
